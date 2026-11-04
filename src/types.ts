@@ -26,6 +26,7 @@ export type Project = {
   events: EventItem[];
   relations: Relation[];
   viewport: Viewport;
+  locked?: boolean;
   createdAt: number;
   updatedAt: number;
   answerEvents?: EventItem[];

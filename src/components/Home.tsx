@@ -60,7 +60,7 @@ export default function Home({
                 <span className="project-title">{p.title}</span>
                 <span className="project-meta">{p.theme} · 사건 {p.events.length}개 · {new Date(p.updatedAt).toLocaleDateString()}</span>
               </button>
-              <button className="btn danger small" onClick={() => onDelete(p.id)}>삭제</button>
+              <button className="btn danger small" onClick={() => { if (window.confirm('프로젝트를 삭제할까요?')) onDelete(p.id); }}>삭제</button>
             </div>
           ))}
         </div>

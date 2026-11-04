@@ -82,3 +82,33 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 .compare-panels { flex: 1; display: grid; grid-template-columns: 1fr 1fr; min-height: 0; gap: 8px; padding: 8px; }
 .compare-panel { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
 .compare-panel h3 { margin: 8px 12px; font-size: 14px; }
+
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.event-card:focus-visible { box-shadow: 0 0 0 3px rgba(79,70,229,.35); }
+
+@media (max-width: 900px) {
+  .editor-body { grid-template-columns: 1fr; }
+  .palette, .props { border: none; border-top: 1px solid var(--border); max-height: 220px; }
+  .compare-panels { grid-template-columns: 1fr; }
+  .home { padding: 16px; }
+}
+@media (max-width: 600px) {
+  .editor-topbar { gap: 6px; }
+  .title-input { min-width: 120px; flex: 1; }
+  .template-grid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-pulse { animation: none; }
+  .event-card { transition: none; }
+}
+
+@media print {
+  body { background: #fff; }
+  .editor-topbar, .palette, .props, .connect-hint, .modal-overlay { display: none !important; }
+  .editor-body { display: block; }
+  .canvas-wrap { overflow: visible; }
+  .timeline-container { height: auto; min-height: 600px; }
+  .event-card { break-inside: avoid; box-shadow: none; border: 1px solid #94a3b8; }
+  .timeline-axis text { fill: #000; }
+}

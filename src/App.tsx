@@ -36,6 +36,23 @@ export default function App() {
     openProject(p);
   };
 
+  const duplicateStudent = (p: Project) => {
+    const copy: Project = {
+      ...p,
+      id: uid(),
+      title: `${p.title} (학생용)`,
+      locked: false,
+      answerEvents: undefined,
+      answerRelations: undefined,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      events: p.events.map((e) => ({ ...e })),
+      relations: p.relations.map((r) => ({ ...r })),
+    };
+    saveProject(copy).then(() => loadProjects().then(setProjects));
+    openProject(copy);
+  };
+
   const updateProject = (p: Project) => {
     const next = { ...p, updatedAt: Date.now() };
     setCurrent(next);
@@ -76,6 +93,7 @@ export default function App() {
           onChange={updateProject}
           onBack={() => { setView('home'); loadProjects().then(setProjects); }}
           onCompare={() => setView('compare')}
+          onDuplicateStudent={duplicateStudent}
         />
       )}
       {view === 'compare' && current && (

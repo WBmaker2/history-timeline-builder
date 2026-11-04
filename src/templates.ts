@@ -13,7 +13,7 @@ export type Template = { id: string; name: string; description: string; theme: s
 
 function makeProject(title: string, theme: string, events: EventItem[], relations: Relation[]): Project {
   const now = Date.now();
-  return { id: uid(), title, theme, events, relations, viewport: { scale: 1, offset: 0 }, createdAt: now, updatedAt: now };
+  return { id: uid(), title, theme, events, relations, viewport: { scale: 1, offset: 0 }, locked: false, createdAt: now, updatedAt: now };
 }
 
 export const templates: Template[] = [

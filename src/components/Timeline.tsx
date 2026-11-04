@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState, memo } from 'react';
 import { scaleLinear } from 'd3-scale';
 import type { EventItem, Relation } from '../types';
 import { parseDate } from '../utils/date';
@@ -30,7 +30,7 @@ function computeLayout(events: EventItem[], width: number): { positions: Record<
   return { positions, scale: scale as (d: number) => number, domain: [lo, hi] };
 }
 
-export default function Timeline({
+function Timeline({
   events,
   relations,
   selectedId,
@@ -172,6 +172,21 @@ export default function Timeline({
                 zIndex: isDragging ? 50 : 10,
                 cursor: readOnly ? 'pointer' : 'grab',
               }}
+              role="button"
+              tabIndex={readOnly ? -1 : 0}
+              aria-label={`${ev.title || '사건'}, ${ev.date}`}
+              aria-pressed={selectedId === ev.id || pendingFrom === ev.id}
+              onKeyDown={(e) => {
+                if (readOnly) return;
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (connectMode && onCardClick) onCardClick(ev.id); else onSelectEvent(ev.id); }
+                if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && onEventMove) {
+                  e.preventDefault();
+                  const delta = e.key === 'ArrowLeft' ? -1 : 1;
+                  const ts = parseDate(ev.date) + delta * 86400000;
+                  const d = new Date(ts);
+                  onEventMove(ev.id, isNaN(d.getTime()) ? ev.date : d.toISOString().slice(0, 10));
+                }
+              }}
               onPointerDown={(e) => handlePointerDown(ev, e)}
               onClick={(e) => {
                 e.stopPropagation();
@@ -192,3 +207,6 @@ export default function Timeline({
     </div>
   );
 }
+
+
+export default memo(Timeline);

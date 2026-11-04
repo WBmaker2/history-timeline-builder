@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import type { Project, EventItem, Relation } from '../types';
-import { uid } from '../utils/date';
+import { uid, isValidDate } from '../utils/date';
 import Timeline from './Timeline';
 import { exportPNG, exportPDF, exportJSON } from '../utils/export';
 
@@ -11,11 +11,13 @@ export default function Editor({
   onChange,
   onBack,
   onCompare,
+  onDuplicateStudent,
 }: {
   project: Project;
   onChange: (p: Project) => void;
   onBack: () => void;
   onCompare: () => void;
+  onDuplicateStudent?: (p: Project) => void;
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedRelId, setSelectedRelId] = useState<string | null>(null);
@@ -28,8 +30,10 @@ export default function Editor({
   }, []);
   const [exportOpen, setExportOpen] = useState(false);
   const canvasRef = useRef<HTMLDivElement>(null);
+  const locked = !!project.locked;
 
   const update = (patch: Partial<Project>) => onChange({ ...project, ...patch });
+  const toggleLock = () => onChange({ ...project, locked: !locked, updatedAt: Date.now() });
 
   const addEvent = () => {
     const ev: EventItem = { id: uid(), title: '새 사건', date: '', description: '', color: COLORS[project.events.length % COLORS.length] };
@@ -43,6 +47,7 @@ export default function Editor({
   };
 
   const deleteEvent = (id: string) => {
+    if (!window.confirm('이 사건을 삭제할까요?')) return;
     update({
       events: project.events.filter((e) => e.id !== id),
       relations: project.relations.filter((r) => r.from !== id && r.to !== id),
@@ -67,6 +72,7 @@ export default function Editor({
   };
 
   const deleteRelation = (id: string) => {
+    if (!window.confirm('이 연결을 삭제할까요?')) return;
     update({ relations: project.relations.filter((r) => r.id !== id) });
     if (selectedRelId === id) setSelectedRelId(null);
   };
@@ -99,18 +105,21 @@ export default function Editor({
         <input
           className="title-input"
           value={project.title}
+          disabled={locked}
           onChange={(e) => update({ title: e.target.value })}
         />
-        <select value={project.theme} onChange={(e) => update({ theme: e.target.value })} className="theme-select">
+        <select value={project.theme} onChange={(e) => update({ theme: e.target.value })} className="theme-select" disabled={locked}>
           <option>일반</option><option>조선</option><option>세계사</option><option>한국 근현대</option>
         </select>
-        <button className="btn" onClick={() => setConnectMode((v) => !v)}>
+        <button className="btn" onClick={() => setConnectMode((v) => !v)} disabled={locked}>
           {connectMode ? '연결 모드 ON' : '인과관계 연결'}
         </button>
-        <button className="btn" onClick={addEvent}>+ 사건</button>
+        <button className="btn" onClick={addEvent} disabled={locked}>+ 사건</button>
         <button className="btn" onClick={() => setExportOpen(true)}>내보내기</button>
         <button className="btn" onClick={onCompare}>비교</button>
-        <button className="btn" onClick={saveAsAnswer} title="현재 타임라인을 정답으로 저장">정답 저장</button>
+        <button className="btn" onClick={saveAsAnswer} title="현재 타임라인을 정답으로 저장" disabled={locked}>정답 저장</button>
+        <button className="btn" onClick={toggleLock}>{locked ? '잠금 해제' : '정답 잠금'}</button>
+        <button className="btn" onClick={() => onDuplicateStudent?.(project)}>학생용 복제</button>
       </div>
 
       <div className="editor-body">
@@ -121,7 +130,10 @@ export default function Editor({
               <div
                 key={e.id}
                 className={`palette-item ${selectedId === e.id ? 'selected' : ''}`}
+                role="button"
+                tabIndex={0}
                 onClick={() => { setSelectedId(e.id); setSelectedRelId(null); }}
+                onKeyDown={(ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); setSelectedId(e.id); setSelectedRelId(null); } }}
               >
                 <span className="palette-dot" style={{ background: e.color }} />
                 <span className="palette-title">{e.title || '(제목 없음)'}</span>
@@ -140,7 +152,8 @@ export default function Editor({
             onSelectEvent={(id) => { setSelectedId(id); setSelectedRelId(null); }}
             onSelectRelation={(id) => { setSelectedRelId(id); setSelectedId(null); }}
             selectedRelationId={selectedRelId}
-            onEventMove={moveEvent}
+            onEventMove={locked ? undefined : moveEvent}
+            readOnly={locked}
             connectMode={connectMode}
             pendingFrom={pendingFrom}
             onCardClick={handleCardClick}
@@ -151,18 +164,19 @@ export default function Editor({
           <h3>속성</h3>
           {selectedEvent && (
             <div className="props-form">
-              <label>제목<input value={selectedEvent.title} onChange={(e) => updateEvent(selectedEvent.id, { title: e.target.value })} /></label>
-              <label>날짜<input value={selectedEvent.date} onChange={(e) => updateEvent(selectedEvent.id, { date: e.target.value })} placeholder="YYYY-MM-DD" /></label>
-              <label>설명<textarea value={selectedEvent.description} onChange={(e) => updateEvent(selectedEvent.id, { description: e.target.value })} rows={4} /></label>
-              <label>색상<input type="color" value={selectedEvent.color} onChange={(e) => updateEvent(selectedEvent.id, { color: e.target.value })} /></label>
+              <label>제목<input value={selectedEvent.title} disabled={locked} onChange={(e) => updateEvent(selectedEvent.id, { title: e.target.value })} /></label>
+              <label>날짜<input value={selectedEvent.date} disabled={locked} onChange={(e) => updateEvent(selectedEvent.id, { date: e.target.value })} placeholder="YYYY-MM-DD" style={{ borderColor: selectedEvent.date && !isValidDate(selectedEvent.date) ? '#dc2626' : undefined }} /></label>
+              {selectedEvent.date && !isValidDate(selectedEvent.date) && <p style={{ color: '#dc2626', fontSize: 12, margin: 0 }}>날짜 형식이 올바르지 않습니다.</p>}
+              <label>설명<textarea value={selectedEvent.description} disabled={locked} onChange={(e) => updateEvent(selectedEvent.id, { description: e.target.value })} rows={4} /></label>
+              <label>색상<input type="color" value={selectedEvent.color} disabled={locked} onChange={(e) => updateEvent(selectedEvent.id, { color: e.target.value })} /></label>
               <label>이미지<input type="file" accept="image/*" onChange={(e) => { const f = e.target.files?.[0]; if (f) onImageUpload(f); e.target.value = ''; }} /></label>
               {selectedEvent.image && <img src={selectedEvent.image} alt="" className="props-img" />}
-              <button className="btn danger" onClick={() => deleteEvent(selectedEvent.id)}>사건 삭제</button>
+              <button className="btn danger" onClick={() => deleteEvent(selectedEvent.id)} disabled={locked}>사건 삭제</button>
             </div>
           )}
           {selectedRel && (
             <div className="props-form">
-              <label>라벨<input value={selectedRel.label} onChange={(e) => updateRelation(selectedRel.id, { label: e.target.value })} /></label>
+              <label>라벨<input value={selectedRel.label} disabled={locked} onChange={(e) => updateRelation(selectedRel.id, { label: e.target.value })} /></label>
               <label>유형
                 <select value={selectedRel.type} onChange={(e) => updateRelation(selectedRel.id, { type: e.target.value as Relation['type'] })}>
                   <option value="cause">원인</option>
@@ -170,7 +184,7 @@ export default function Editor({
                   <option value="sequence">순서</option>
                 </select>
               </label>
-              <button className="btn danger" onClick={() => deleteRelation(selectedRel.id)}>연결 삭제</button>
+              <button className="btn danger" onClick={() => deleteRelation(selectedRel.id)} disabled={locked}>연결 삭제</button>
             </div>
           )}
           {!selectedEvent && !selectedRel && <p className="muted">사건 또는 연결선을 선택하세요.</p>}
