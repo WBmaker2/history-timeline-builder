@@ -31,6 +31,7 @@ export default function Editor({
   const [exportOpen, setExportOpen] = useState(false);
   const canvasRef = useRef<HTMLDivElement>(null);
   const locked = !!project.locked;
+  const [lastMove, setLastMove] = useState<{ id: string; prevDate: string } | null>(null);
 
   const update = (patch: Partial<Project>) => onChange({ ...project, ...patch });
   const toggleLock = () => onChange({ ...project, locked: !locked, updatedAt: Date.now() });
@@ -56,7 +57,14 @@ export default function Editor({
   };
 
   const moveEvent = (id: string, newDate: string) => {
+    const ev = project.events.find((e) => e.id === id);
+    if (ev) setLastMove({ id, prevDate: ev.date });
     updateEvent(id, { date: newDate });
+  };
+  const undoMove = () => {
+    if (!lastMove) return;
+    updateEvent(lastMove.id, { date: lastMove.prevDate });
+    setLastMove(null);
   };
 
   const addRelation = (from: string, to: string) => {
@@ -115,6 +123,7 @@ export default function Editor({
           {connectMode ? '연결 모드 ON' : '인과관계 연결'}
         </button>
         <button className="btn" onClick={addEvent} disabled={locked}>+ 사건</button>
+        {lastMove && <button className="btn" onClick={undoMove}>되돌리기</button>}
         <button className="btn" onClick={() => setExportOpen(true)}>내보내기</button>
         <button className="btn" onClick={onCompare}>비교</button>
         <button className="btn" onClick={saveAsAnswer} title="현재 타임라인을 정답으로 저장" disabled={locked}>정답 저장</button>

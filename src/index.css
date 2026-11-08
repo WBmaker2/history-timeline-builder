@@ -242,3 +242,7 @@ body {
   .event-card { break-inside: avoid; box-shadow: none; border: 1px solid #8a7355; transform: none; background: #ffffff; }
   .timeline-axis text { fill: #2b1d0e; }
 }
+
+.drag-handle { position: absolute; top: 4px; right: 6px; cursor: grab; color: var(--muted); font-size: 12px; user-select: none; padding: 2px 4px; border-radius: 4px; }
+.drag-handle:hover { background: #e2e8f0; color: var(--text); }
+.event-card { position: relative; }

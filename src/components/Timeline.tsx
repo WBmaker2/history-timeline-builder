@@ -189,7 +189,6 @@ function Timeline({
                   onEventMove(ev.id, isNaN(d.getTime()) ? ev.date : d.toISOString().slice(0, 10));
                 }
               }}
-              onPointerDown={(e) => handlePointerDown(ev, e)}
               onClick={(e) => {
                 e.stopPropagation();
                 if (movedRef.current) { movedRef.current = false; return; }
@@ -197,6 +196,13 @@ function Timeline({
                 else onSelectEvent(ev.id);
               }}
             >
+              {!readOnly && onEventMove && (
+                <span
+                  className="drag-handle"
+                  onPointerDown={(e) => handlePointerDown(ev, e)}
+                  title="드래그하여 이동"
+                >⋮⋮</span>
+              )}
               <div className="event-card-color" style={{ background: ev.color }} />
               <div className="event-card-title">{ev.title || '(제목 없음)'}</div>
               <div className="event-card-date">{ev.date}</div>
