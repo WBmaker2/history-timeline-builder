@@ -4,7 +4,7 @@ import { uid, isValidDate } from '../utils/date';
 import Timeline from './Timeline';
 import { exportPNG, exportPDF, exportJSON } from '../utils/export';
 
-const COLORS = ['#4f46e5', '#2563eb', '#059669', '#d97706', '#dc2626', '#7c3aed', '#0891b2'];
+const COLORS = ['#c94a2a', '#2a6a8a', '#4a7a3a', '#d4a020', '#a83a2a', '#7a5a9a', '#3a7a7a'];
 
 export default function Editor({
   project,
@@ -165,8 +165,8 @@ export default function Editor({
           {selectedEvent && (
             <div className="props-form">
               <label>제목<input value={selectedEvent.title} disabled={locked} onChange={(e) => updateEvent(selectedEvent.id, { title: e.target.value })} /></label>
-              <label>날짜<input value={selectedEvent.date} disabled={locked} onChange={(e) => updateEvent(selectedEvent.id, { date: e.target.value })} placeholder="YYYY-MM-DD" style={{ borderColor: selectedEvent.date && !isValidDate(selectedEvent.date) ? '#dc2626' : undefined }} /></label>
-              {selectedEvent.date && !isValidDate(selectedEvent.date) && <p style={{ color: '#dc2626', fontSize: 12, margin: 0 }}>날짜 형식이 올바르지 않습니다.</p>}
+              <label>날짜<input value={selectedEvent.date} disabled={locked} onChange={(e) => updateEvent(selectedEvent.id, { date: e.target.value })} placeholder="YYYY-MM-DD" style={{ borderColor: selectedEvent.date && !isValidDate(selectedEvent.date) ? '#a83a2a' : undefined }} /></label>
+              {selectedEvent.date && !isValidDate(selectedEvent.date) && <p style={{ color: '#a83a2a', fontSize: 12, margin: 0 }}>날짜 형식이 올바르지 않습니다.</p>}
               <label>설명<textarea value={selectedEvent.description} disabled={locked} onChange={(e) => updateEvent(selectedEvent.id, { description: e.target.value })} rows={4} /></label>
               <label>색상<input type="color" value={selectedEvent.color} disabled={locked} onChange={(e) => updateEvent(selectedEvent.id, { color: e.target.value })} /></label>
               <label>이미지<input type="file" accept="image/*" onChange={(e) => { const f = e.target.files?.[0]; if (f) onImageUpload(f); e.target.value = ''; }} /></label>

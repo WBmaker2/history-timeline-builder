@@ -1,5 +1,13 @@
 # 업데이트 내역
 
+## 2026-11-08
+- 디자인 시스템 재구성: '증거 벽(Cork Pin-Board)' 비주얼 월드 적용 (코르크 바탕, 핀으로 고정된 인덱스 카드, 색실 인과관계 연결선)
+- DESIGN.md 및 .impeccable/design.json 디자인 토큰 문서화
+- PRODUCT.md 제품 진실 문서 추가
+- Home/Editor/Compare/Export 모달 전 화면 비주얼 개편
+- 하드 오프셋 그림자, 손글씨 제목 + 모노 메타 타이포, 2px 코르크 테두리
+- 접근성·반응형·reduced-motion·인쇄 CSS 유지
+
 ## 2026-11-05
 - React + Vite + TypeScript 기반 프로젝트 세팅
 - 사건 카드 생성/편집, 날짜·설명·이미지·색상 지원

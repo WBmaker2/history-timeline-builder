@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>chalkboard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1440px;height:900px;overflow:hidden;background:#1e2a24;color:#f4f1e8;font-family:'Courier New',monospace}
+.topbar{height:48px;display:flex;align-items:center;gap:10px;padding:0 16px;background:#14201a;border-bottom:2px solid #3a4a3e}
+.btn{background:#2a3a30;border:1px solid #5a6a5e;color:#f4f1e8;padding:6px 12px;border-radius:4px;font-size:13px;font-family:inherit}
+.btn.primary{background:#d4c89a;color:#1e2a24;border-color:#d4c89a}
+.title{font-size:16px;font-weight:700;margin-right:12px;color:#f4f1e8}
+.body{display:grid;grid-template-columns:240px 1fr 280px;height:852px}
+.pane{background:#1a2620;padding:14px;border-right:1px solid #3a4a3e;overflow:hidden}
+.props{border-right:none;border-left:1px solid #3a4a3e}
+.pane h3{font-size:13px;margin-bottom:10px;color:#d4c89a;letter-spacing:1px}
+.item{display:flex;align-items:center;gap:8px;padding:8px;border:1px dashed #5a6a5e;border-radius:4px;margin-bottom:6px}
+.dot{width:10px;height:10px;border-radius:50%}
+.canvas{position:relative;background:#1e2a24;overflow:hidden}
+.axis{position:absolute;top:40px;left:60px;right:60px;height:2px;background:#9aa89e}
+.tick{position:absolute;top:34px;width:1px;height:14px;background:#9aa89e}
+.label{position:absolute;top:14px;font-size:11px;color:#9aa89e;transform:translateX(-50%)}
+.card{position:absolute;width:160px;border:2px solid #d4c89a;border-radius:6px;background:#2a3a30;padding:8px;box-shadow:2px 2px 0 #000}
+.card .color{height:4px;background:#e8c87a;margin-bottom:6px;border-radius:2px}
+.card .t{font-size:13px;font-weight:700;color:#f4f1e8}
+.card .d{font-size:11px;color:#9aa89e;margin-top:2px}
+.card.sel{border-color:#ff6b6b;box-shadow:2px 2px 0 #ff6b6b}
+.dust{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 20% 30%,rgba(244,241,232,.06),transparent 40%),radial-gradient(circle at 80% 70%,rgba(244,241,232,.04),transparent 50%)}
+.empty{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#9aa89e;font-size:14px}
+</style></head><body>
+<div class="topbar">
+  <span class="title">히스토리 타임라인 빌더</span>
+  <button class="btn">← 홈</button>
+  <input class="btn" value="조선 후기" style="background:#2a3a30;min-width:180px">
+  <select class="btn"><option>조선</option></select>
+  <button class="btn">인과관계 연결</button>
+  <button class="btn primary">+ 사건</button>
+  <button class="btn">내보내기</button>
+  <button class="btn">비교</button>
+</div>
+<div class="body">
+  <aside class="pane">
+    <h3>사건 목록</h3>
+    <div class="item"><span class="dot" style="background:#e8c87a"></span><span>임진왜란</span><span style="margin-left:auto;font-size:11px;color:#9aa89e">1592</span></div>
+    <div class="item"><span class="dot" style="background:#7aa8e8"></span><span>선조 피난</span><span style="margin-left:auto;font-size:11px;color:#9aa89e">1593</span></div>
+    <div class="item"><span class="dot" style="background:#e87a9a"></span><span>이순신 거북선</span><span style="margin-left:auto;font-size:11px;color:#9aa89e">1592</span></div>
+    <p style="font-size:11px;color:#9aa89e;margin-top:12px">카드를 드래그해 시간축 위치를 바꿀 수 있습니다.</p>
+  </aside>
+  <main class="canvas">
+    <div class="dust"></div>
+    <svg class="axis" style="position:absolute;inset:0;pointer-events:none" width="920" height="852">
+      <line x1="60" y1="60" x2="860" y2="60" stroke="#9aa89e" stroke-width="2"/>
+      <text x="60" y="44" font-size="11" fill="#9aa89e" text-anchor="middle">1590</text>
+      <text x="460" y="44" font-size="11" fill="#9aa89e" text-anchor="middle">1593</text>
+      <text x="860" y="44" font-size="11" fill="#9aa89e" text-anchor="middle">1596</text>
+      <path d="M200,140 C200,200 340,200 340,260" fill="none" stroke="#d4c89a" stroke-width="2" stroke-dasharray="4 3"/>
+    </svg>
+    <div class="card" style="left:130px;top:90px"><div class="color"></div><div class="t">임진왜란</div><div class="d">1592-04-13</div></div>
+    <div class="card sel" style="left:300px;top:210px"><div class="color" style="background:#7aa8e8"></div><div class="t">선조 피난</div><div class="d">1593-01-25</div></div>
+    <div class="card" style="left:470px;top:90px"><div class="color" style="background:#e87a9a"></div><div class="t">이순신 거북선</div><div class="d">1592-07-08</div></div>
+  </main>
+  <aside class="props pane props">
+    <h3>속성</h3>
+    <label style="display:block;font-size:12px;margin-bottom:8px;color:#d4c89a">제목<input value="선조 피난" style="width:100%;margin-top:4px;background:#2a3a30;border:1px solid #5a6a5e;color:#f4f1e8;padding:6px;border-radius:4px"></label>
+    <label style="display:block;font-size:12px;margin-bottom:8px;color:#d4c89a">날짜<input value="1593-01-25" style="width:100%;margin-top:4px;background:#2a3a30;border:1px solid #5a6a5e;color:#f4f1e8;padding:6px;border-radius:4px"></label>
+    <label style="display:block;font-size:12px;margin-bottom:8px;color:#d4c89a">설명<textarea rows="3" style="width:100%;margin-top:4px;background:#2a3a30;border:1px solid #5a6a5e;color:#f4f1e8;padding:6px;border-radius:4px">왕이 의주로 피난...</textarea></label>
+  </aside>
+</div>
+</body></html>

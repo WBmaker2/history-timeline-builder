@@ -33,7 +33,7 @@ export default function Home({
         <div className="home-section-head">
           <h2>새 프로젝트</h2>
           <div className="home-actions">
-            <button className="btn primary" onClick={onCreateEmpty}>빈 타임라인</button>
+            <button className="btn primary btn-pulse" onClick={onCreateEmpty}>빈 타임라인</button>
             <label className="btn">
               JSON 불러오기
               <input type="file" accept="application/json" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) onImport(f); e.target.value = ''; }} />
@@ -69,7 +69,7 @@ export default function Home({
         <div className="modal-overlay" onClick={() => setLogOpen(false)}>
           <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 520, maxHeight: '70vh', overflow: 'auto' }}>
             <h3>업데이트 내역</h3>
-            <pre style={{ whiteSpace: 'pre-wrap', fontSize: 13, lineHeight: 1.6 }}>{updateLog}</pre>
+            <pre style={{ whiteSpace: 'pre-wrap', fontSize: 13, lineHeight: 1.6, background: 'var(--card-2)', padding: 12, border: '2px solid var(--cork-deep)', borderRadius: 4, maxHeight: '50vh', overflow: 'auto', fontFamily: 'var(--font-meta)' }}>{updateLog}</pre>
             <button className="btn" onClick={() => setLogOpen(false)}>닫기</button>
           </div>
         </div>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>transit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1440px;height:900px;overflow:hidden;background:#0b1a2e;color:#f2f5fa;font-family:'Helvetica Neue',sans-serif}
+.topbar{height:48px;display:flex;align-items:center;gap:10px;padding:0 16px;background:#061224;border-bottom:1px solid #1f3a5f}
+.btn{background:#132640;border:1px solid #2a4a78;color:#f2f5fa;padding:6px 12px;border-radius:4px;font-size:13px}
+.btn.primary{background:#e83a3a;color:#fff;border-color:#e83a3a}
+.title{font-size:16px;font-weight:700;margin-right:12px}
+.body{display:grid;grid-template-columns:240px 1fr 280px;height:852px}
+.pane{background:#0d1f3a;padding:14px;border-right:1px solid #1f3a5f;overflow:hidden}
+.props{border-right:none;border-left:1px solid #1f3a5f}
+.pane h3{font-size:13px;margin-bottom:10px;color:#7aa8e8;letter-spacing:.5px;text-transform:uppercase}
+.item{display:flex;align-items:center;gap:8px;padding:8px;border:1px solid #1f3a5f;border-radius:4px;margin-bottom:6px;background:#0b1a2e}
+.dot{width:10px;height:10px;border-radius:50%}
+.canvas{position:relative;background:#0b1a2e;overflow:hidden}
+.grid{position:absolute;inset:0;background-image:linear-gradient(to right,rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.04) 1px,transparent 1px);background-size:40px 40px}
+.card{position:absolute;width:160px;background:#132640;border:1px solid #2a4a78;border-left:4px solid #e83a3a;padding:8px;border-radius:4px}
+.card .t{font-size:13px;font-weight:600;color:#f2f5fa}
+.card .d{font-size:11px;color:#7aa8e8;margin-top:2px}
+.card.sel{border-color:#f5c542;border-left-color:#f5c542;box-shadow:0 0 0 2px rgba(245,197,66,.3)}
+.note{background:#0d1f3a;border:1px solid #2a4a78;padding:12px;border-radius:4px}
+.note label{display:block;font-size:12px;margin-bottom:8px;color:#7aa8e8}
+.note input,.note textarea{width:100%;border:1px solid #2a4a78;background:#0b1a2e;color:#f2f5fa;padding:5px;border-radius:4px;font-size:12px;margin-top:4px;font-family:inherit}
+</style></head><body>
+<div class="topbar">
+  <span class="title">히스토리 타임라인 빌더</span>
+  <button class="btn">← 홈</button>
+  <input class="btn" value="조선 후기" style="background:#132640;min-width:180px">
+  <select class="btn"><option>조선</option></select>
+  <button class="btn">인과관계 연결</button>
+  <button class="btn primary">+ 사건</button>
+  <button class="btn">내보내기</button>
+  <button class="btn">비교</button>
+</div>
+<div class="body">
+  <aside class="pane">
+    <h3>사건 목록</h3>
+    <div class="item"><span class="dot" style="background:#e83a3a"></span><span>임진왜란</span><span style="margin-left:auto;font-size:11px;color:#7aa8e8">1592</span></div>
+    <div class="item"><span class="dot" style="background:#3a8ae8"></span><span>선조 피난</span><span style="margin-left:auto;font-size:11px;color:#7aa8e8">1593</span></div>
+    <div class="item"><span class="dot" style="background:#e8a83a"></span><span>이순신 거북선</span><span style="margin-left:auto;font-size:11px;color:#7aa8e8">1592</span></div>
+  </aside>
+  <main class="canvas">
+    <div class="grid"></div>
+    <svg style="position:absolute;inset:0;pointer-events:none" width="920" height="852">
+      <line x1="60" y1="50" x2="860" y2="50" stroke="#2a4a78" stroke-width="2"/>
+      <text x="60" y="34" font-size="11" fill="#7aa8e8" text-anchor="middle">1590</text>
+      <text x="460" y="34" font-size="11" fill="#7aa8e8" text-anchor="middle">1593</text>
+      <text x="860" y="34" font-size="11" fill="#7aa8e8" text-anchor="middle">1596</text>
+      <path d="M200,120 L200,180 L340,180 L340,260" fill="none" stroke="#e83a3a" stroke-width="3"/>
+      <circle cx="200" cy="120" r="5" fill="#e83a3a"/>
+      <circle cx="340" cy="260" r="5" fill="#e83a3a"/>
+      <path d="M520,120 L520,180 L380,180" fill="none" stroke="#3a8ae8" stroke-width="3"/>
+    </svg>
+    <div class="card" style="left:130px;top:80px;border-left-color:#e83a3a"><div class="t">임진왜란</div><div class="d">1592-04-13</div></div>
+    <div class="card sel" style="left:270px;top:220px;border-left-color:#3a8ae8"><div class="t">선조 피난</div><div class="d">1593-01-25</div></div>
+    <div class="card" style="left:450px;top:80px;border-left-color:#e8a83a"><div class="t">이순신 거북선</div><div class="d">1592-07-08</div></div>
+  </main>
+  <aside class="props pane props">
+    <h3>속성</h3>
+    <div class="note">
+      <label>제목<input value="선조 피난"></label>
+      <label>날짜<input value="1593-01-25"></label>
+      <label>설명<textarea rows="3">왕이 의주로 피난...</textarea></label>
+    </div>
+  </aside>
+</div>
+</body></html>

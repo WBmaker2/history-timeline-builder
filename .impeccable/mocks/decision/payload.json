@@ -1,0 +1,132 @@
+{
+  "title": "Choose the visual world",
+  "question": "The roll assigned Classroom Chalkboard. Keep it, take an alternate, or re-roll.",
+  "options": [
+    {
+      "id": "assigned",
+      "kind": "assigned",
+      "label": "Classroom Chalkboard",
+      "kicker": "THE ROLL",
+      "lineage": "slate board, chalk dust, eraser smudges",
+      "thesis": "A slate canvas where the timeline is drawn in chalk and the dust settles where work happened.",
+      "palette": ["#1e2a24", "#f4f1e8", "#d4c89a", "#ff6b6b"],
+      "materials": ["slate", "chalk dust", "eraser smudge"],
+      "viewport": "Dark slate canvas, chalk-drawn axis, chalk event cards, dust texture.",
+      "risk": "Reads dated or classroom-cliché if the chalk is decorative rather than structural.",
+      "raised": [
+        {"from": "variable-font-specimen", "raise": "Type scale is measured and ranked, not guessed, so chalk sizes stay legible."},
+        {"from": "vernacular-ephemera-cassette-j-card", "raise": "Hard side-by-side halves for the compare view, like side A / side B."},
+        {"from": "wayfinding-cartography-signage-midnight-transit-diagram", "raise": "Relation arrows bend at 45/90 with interchange nodes, like a transit line."},
+        {"from": "notation-diagram-systems-orienteering-map", "raise": "A relation layer rides over the terrain of the timeline without editing it."}
+      ],
+      "html": ".impeccable/mocks/decision/assigned.html"
+    },
+    {
+      "id": "model-pick",
+      "kind": "pick",
+      "label": "Cork Pin-Board",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "cork bulletin board, pinned cards, colored string",
+      "thesis": "Events pinned to cork, connected by colored string, like a student's evidence wall.",
+      "palette": ["#8a6a3f", "#f4e6c8", "#c94a2a", "#2a6a8a"],
+      "materials": ["cork", "index cards", "pushpins", "string"],
+      "viewport": "Cork canvas with pinned index-card events and string relation arrows.",
+      "risk": "Also the direction most runs in this category land on; can read craft-fair if the pins are literal.",
+      "html": ".impeccable/mocks/decision/model-pick.html"
+    },
+    {
+      "id": "challenger-transit",
+      "kind": "challenger",
+      "catalogId": "wayfinding-cartography-signage-midnight-transit-diagram",
+      "label": "Midnight Transit Diagram",
+      "verdict": "competitive",
+      "lineage": "metro map fired as enamel mural",
+      "thesis": "A midnight-blue shell where causal relations read as transit lines with interchange nodes.",
+      "palette": ["#0b1a2e", "#f2f5fa", "#e83a3a", "#3a8ae8", "#f5c542"],
+      "materials": ["enamel", "porcelain ticks", "line inks"],
+      "viewport": "Midnight-blue work surface, standard controls, transit-line relation arrows.",
+      "case": "Fuses cleanly: relations map to transit lines with 45/90 bends; loses narrowly on audience identification (commuter vs student).",
+      "risk": "Reads as a transit app, not a study tool, if the shell goes cold.",
+      "html": ".impeccable/mocks/decision/challenger-transit.html",
+      "hero": "https://impeccable.style/worlds/cards/wayfinding-cartography-signage-midnight-transit-diagram-hero.webp"
+    },
+    {
+      "id": "challenger-type",
+      "kind": "challenger",
+      "catalogId": "variable-font-specimen",
+      "label": "Type Specimen",
+      "verdict": "declined",
+      "lineage": "interactive type specimen",
+      "palette": ["#fafafa", "#111111", "#c94a2a"],
+      "materials": ["paper", "ink", "mono readout"],
+      "case": "Fuses poorly: a specimen showcases type, not a task; students do not identify with it.",
+      "kept": "Measured type scale and ranked faces.",
+      "hero": "https://impeccable.style/worlds/cards/variable-font-specimen-hero.webp"
+    },
+    {
+      "id": "challenger-cassette",
+      "kind": "challenger",
+      "catalogId": "vernacular-ephemera-cassette-j-card",
+      "label": "Cassette J-Card",
+      "verdict": "declined",
+      "lineage": "hand-lettered mixtape j-card",
+      "palette": ["#ffffff", "#1a3a8a", "#c94a2a", "#8a8a8a"],
+      "materials": ["ballpoint", "lined inlay", "pencil"],
+      "case": "Fuses poorly: side A/B halves and track times do not read as a timeline tool.",
+      "kept": "Hard halves for the compare view (side A vs side B).",
+      "hero": "https://impeccable.style/worlds/cards/vernacular-ephemera-cassette-j-card-hero.webp"
+    },
+    {
+      "id": "challenger-vertical",
+      "kind": "challenger",
+      "catalogId": "pop-culture-shelf-vertical-video-feed-surface",
+      "label": "Vertical Video Feed",
+      "verdict": "declined",
+      "lineage": "full-bleed vertical media surface",
+      "palette": ["#000000", "#ffffff"],
+      "materials": ["media", "scrim", "glyphs"],
+      "case": "Fuses poorly: one-item-at-a-time navigation breaks the timeline's overview.",
+      "kept": "Full-bleed focus for the empty/first-run state.",
+      "hero": "https://impeccable.style/worlds/cards/pop-culture-shelf-vertical-video-feed-surface-hero.webp"
+    },
+    {
+      "id": "challenger-metro",
+      "kind": "challenger",
+      "catalogId": "digital-design-canon-metro-typographic-tiles",
+      "label": "Metro Typographic Tiles",
+      "verdict": "declined",
+      "lineage": "metro panorama of cropped headlines",
+      "palette": ["#000000", "#00c8ff", "#ff00ff", "#ffffff"],
+      "materials": ["flat tiles", "cropped type"],
+      "case": "Fuses poorly: cropped headlines and tile chrome fight the task's data density.",
+      "kept": "Type doing the work of chrome.",
+      "hero": "https://impeccable.style/worlds/cards/digital-design-canon-metro-typographic-tiles-hero.webp"
+    },
+    {
+      "id": "challenger-orienteering",
+      "kind": "challenger",
+      "catalogId": "notation-diagram-systems-orienteering-map",
+      "label": "Orienteering Map",
+      "verdict": "declined",
+      "lineage": "iso-standard orienteering map and legend",
+      "palette": ["#ffffff", "#4a6a3a", "#8a6a3a", "#3a5a8a", "#8a3a8a"],
+      "materials": ["contour lines", "iso inks", "legend"],
+      "case": "Fuses poorly: terrain color language overwhelms the work surface; course layer overlaps the signature move.",
+      "kept": "Layered course-over-terrain model for the relation overlay.",
+      "hero": "https://impeccable.style/worlds/cards/notation-diagram-systems-orienteering-map-hero.webp"
+    }
+  ],
+  "reroll": {"registers": ["safer", "bolder"]},
+  "buildPath": {"value": "code", "toggle": false},
+  "canon": true,
+  "canonCard": {
+    "kind": "canon",
+    "label": "The category standard",
+    "thesis": "What this category ships, executed impeccably.",
+    "palette": ["#ffffff", "#111827", "#2563eb"],
+    "materials": ["clean grid", "product photography"],
+    "viewport": "The arrangement a visitor expects, at full craft.",
+    "risk": "Indistinguishable from the competition by design."
+  },
+  "steer": true
+}

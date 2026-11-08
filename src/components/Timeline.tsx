@@ -112,14 +112,14 @@ function Timeline({
   return (
     <div ref={resizeRef} className="timeline-container" style={{ height }}>
       <svg className="timeline-axis" width={width} height={height} style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
-        <line x1={PAD} y1={60} x2={width - PAD} y2={60} stroke="#94a3b8" strokeWidth={2} />
+        <line x1={PAD} y1={60} x2={width - PAD} y2={60} stroke="#8a7355" strokeWidth={2} />
         {ticks.map((t, i) => {
           const x = scale(t);
           const label = new Date(t).getFullYear();
           return (
             <g key={i}>
-              <line x1={x} y1={54} x2={x} y2={66} stroke="#94a3b8" strokeWidth={1.5} />
-              <text x={x} y={48} textAnchor="middle" fontSize={11} fill="#64748b">{isNaN(label) ? '' : label}</text>
+              <line x1={x} y1={54} x2={x} y2={66} stroke="#8a7355" strokeWidth={1.5} />
+              <text x={x} y={48} textAnchor="middle" fontSize={11} fill="#6b4f2a">{isNaN(label) ? '' : label}</text>
             </g>
           );
         })}
@@ -134,21 +134,23 @@ function Timeline({
           const midX = (x1 + x2) / 2;
           const midY = (y1 + y2) / 2;
           const selected = selectedRelationId === rel.id;
+          const color = selected ? '#c94a2a' : (rel.type === 'cause' ? '#c94a2a' : rel.type === 'influence' ? '#2a6a8a' : '#d4a020');
           return (
             <g key={rel.id} onClick={(e) => { e.stopPropagation(); onSelectRelation?.(rel.id); }} style={{ cursor: 'pointer', pointerEvents: 'auto' }}>
               <defs>
                 <marker id={`arrow-${rel.id}`} markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                  <path d="M0,0 L0,6 L9,3 z" fill={selected ? '#dc2626' : '#475569'} />
+                  <path d="M0,0 L0,6 L9,3 z" fill={color} />
                 </marker>
               </defs>
               <path
                 d={`M${x1},${y1} C${x1},${(y1 + y2) / 2} ${x2},${(y1 + y2) / 2} ${x2},${y2}`}
                 fill="none"
-                stroke={selected ? '#dc2626' : '#475569'}
-                strokeWidth={selected ? 2.5 : 1.8}
+                stroke={color}
+                strokeWidth={selected ? 3 : 2.2}
+                strokeDasharray={selected ? '0' : '0'}
                 markerEnd={`url(#arrow-${rel.id})`}
               />
-              <text x={midX} y={midY - 6} textAnchor="middle" fontSize={11} fill="#334155" className="relation-label">{rel.label}</text>
+              <text x={midX} y={midY - 6} textAnchor="middle" fontSize={11} fill="#2b1d0e" className="relation-label">{rel.label}</text>
             </g>
           );
         })}
