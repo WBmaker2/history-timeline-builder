@@ -150,7 +150,6 @@ export default function Editor({
               </div>
             ))}
           </div>
-          <p className="hint">카드를 드래그해 시간축 위치를 바꿀 수 있습니다.</p>
         </aside>
 
         <main className="canvas-wrap" ref={canvasRef}>
